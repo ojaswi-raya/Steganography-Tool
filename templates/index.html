@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #ccc 1px solid;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        form {
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="file"], input[type="text"], button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .result img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Steganography Tool</h1>
+    </header>
+    <div class="container">
+        <h2>Encode Message into Image</h2>
+        <form action="/encode" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <input type="text" name="message" placeholder="Enter message to encode" required>
+            <button type="submit">Encode</button>
+        </form>
+        
+        <h2>Decode Message from Image</h2>
+        <form action="/decode" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Decode</button>
+        </form>
+        
+        <!-- Display the result after encoding -->
+        {% if filename %}
+        <div class="result">
+            <h3>Encoded Image</h3>
+            <img src="{{ url_for('download_file', filename=filename) }}" alt="Encoded Image">
+            <p><a href="{{ url_for('download_file', filename=filename) }}" download>Download Encoded Image</a></p>
+        </div>
+        {% endif %}
+        
+        <!-- Display the result after decoding -->
+        {% if message %}
+        <div class="result">
+            <h3>Decoded Message</h3>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
